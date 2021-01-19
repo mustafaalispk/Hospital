@@ -1,8 +1,5 @@
 ﻿using Hospital.Gateway.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
@@ -10,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Hospital.Gateway.Controllers
 {
+    // /api/patients/{socialSecurityNumber}
     [ApiController]
     [Route("[controller]")]
     public class GatewayController : ControllerBase
@@ -19,14 +17,16 @@ namespace Hospital.Gateway.Controllers
         public GatewayController(IHttpClientFactory clientFactory)
         {
             this.clientFactory = clientFactory;
-         }
-        // /patient/19900101-2020
-        [HttpGet]
+        }
+
+        // GET //19900101-2020
+        // [Route("patients")]
+        [HttpGet("{socialSecurityNumber}")]
         public async Task<PatientDto> GetPatient(string socialSecurityNumber)
         {
             // TODO: Hämta patient-information från (tex: /patients/19900101-2020)
 
-            var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:60154/patients/" + socialSecurityNumber);
+            var request = new HttpRequestMessage(HttpMethod.Get, "http://hospital.patients/patients/" + socialSecurityNumber);
 
             request.Headers.Add("Accept", "application/json");
 
@@ -45,7 +45,7 @@ namespace Hospital.Gateway.Controllers
 
             // TODO: Hämta journal-information för patient (tex: /journal/19900101-2020
 
-            request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:61578/journals/" + socialSecurityNumber);
+            request = new HttpRequestMessage(HttpMethod.Get, "http://hospital.journals/journals/" + socialSecurityNumber);
 
             request.Headers.Add("Accept", "application/json");
 

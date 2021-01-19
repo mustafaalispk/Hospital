@@ -22,8 +22,7 @@ namespace Hospital.Patients.Controllers
                lastName: "Doe",
                socialSecurityNumber: "19900101-2020")
            
-        };
-       
+        };       
 
         //GET /patients/19800101-1020
         [HttpGet("{socialSecurityNumber}")]

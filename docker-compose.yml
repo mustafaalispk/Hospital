@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  hospital.gateway:
+    image: ${DOCKER_REGISTRY-}hospitalgateway
+    build:
+      context: .
+      dockerfile: Hospital.Gateway/Dockerfile
+
+  hospital.journals:
+    image: ${DOCKER_REGISTRY-}hospitaljournals
+    build:
+      context: .
+      dockerfile: Hospital.Journals/Dockerfile
+
+
+  hospital.patients:
+    image: ${DOCKER_REGISTRY-}hospitalpatients
+    build:
+      context: .
+      dockerfile: Hospital.Patients/Dockerfile
+
