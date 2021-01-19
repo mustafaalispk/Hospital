@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Hospital.Gateway.Controllers
@@ -11,13 +12,36 @@ namespace Hospital.Gateway.Controllers
     [ApiController]
     [Route("[controller]")]
     public class GatewayController : ControllerBase
-    {      
+    {
+        private readonly IHttpClientFactory clientFactory;
+
+        public GatewayController(IHttpClientFactory clientFactory)
+        {
+            this.clientFactory = clientFactory;
+        }
         // /patient/19900101-2010
         [HttpGet]
-        public PatientDto GetPatient(string socialSecurityNumber)
+        public async Task<PatientDto> GetPatient(string socialSecurityNumber)
         {
-            // TODO: Anropa 
-            return null;
+            // TODO: Hämta patient-information från (tex: /patients/19900101-2010)
+
+            var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:60154/patients/" + socialSecurityNumber);
+
+            request.Headers.Add("Accept", "application/json");
+
+            var client = clientFactory.CreateClient();
+
+            var response = await client.SendAsync(request);
+
+            var serializedPatient = await response.Content.ReadAsStringAsync();
+
+            // TODO: Hämta journal-information för patient (tex: /journal/19900101-2010
+
+            // Aggregera information - bygg ihopp och returnera
+
+            return new PatientDto();
+
+            
         }
     }
 }
