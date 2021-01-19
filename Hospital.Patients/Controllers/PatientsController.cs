@@ -25,7 +25,7 @@ namespace Hospital.Patients.Controllers
         };
        
 
-        //GET /patients/19800101-1010
+        //GET /patients/19800101-1020
         [HttpGet("{socialSecurityNumber}")]
         public ActionResult<PatientDto> GetPatient(string socialSecurityNumber)
         {
