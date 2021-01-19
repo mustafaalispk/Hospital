@@ -43,12 +43,23 @@ namespace Hospital.Gateway.Controllers
 
             var patientDto = JsonSerializer.Deserialize<PatientDto>(serializedPatient, serializedOptions);
 
-
             // TODO: Hämta journal-information för patient (tex: /journal/19900101-2020
+
+            request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:61578/journals/" + socialSecurityNumber);
+
+            request.Headers.Add("Accept", "application/json");
+
+            response = await client.SendAsync(request);
+
+            var serializedJournal = await response.Content.ReadAsStringAsync();
+
+            var journalDto = JsonSerializer.Deserialize<JournalDto>(serializedJournal, serializedOptions);
 
             // Aggregera information - bygg ihopp och returnera
 
-            return new PatientDto();
+            patientDto.Journal = journalDto.Entries.ToList();                      
+
+            return patientDto;
 
             
         }
