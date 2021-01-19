@@ -9,7 +9,7 @@ namespace Hospital.Gateway.Controllers
 {
     // /api/patients/{socialSecurityNumber}
     [ApiController]
-    [Route("[controller]")]
+    [Route("patients")]    
     public class GatewayController : ControllerBase
     {
         private readonly IHttpClientFactory clientFactory;
@@ -20,7 +20,7 @@ namespace Hospital.Gateway.Controllers
         }
 
         // GET //19900101-2020
-        // [Route("patients")]
+        //[Route("patients")]
         [HttpGet("{socialSecurityNumber}")]
         public async Task<PatientDto> GetPatient(string socialSecurityNumber)
         {
